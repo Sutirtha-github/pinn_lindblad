@@ -91,7 +91,7 @@ $\mathcal{L}_{boundary} = \frac{1}{3}[(NN(0,\mathbf{w})[0] - 0)^2 + (NN(0,\mathb
 
 $L_{physics} = \frac{1}{3}[\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt} NN(t_i,\mathbf{w})[0] + 0.5*(\gamma_a - \gamma_e) + (\gamma_a + \gamma_e) *  NN(t_i,\mathbf{w})[0])^2$ 
 
-$\hspace{1.5cm}+\frac{\1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[1] + \frac{\gamma_a + \gamma_e}{2} * NN(t_i,\mathbf{w})[1] - \Omega * NN(t_i,\mathbf{w})[2])^2$
+$\hspace{1.5cm}+\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[1] + \frac{\gamma_a + \gamma_e}{2} * NN(t_i,\mathbf{w})[1] - \Omega * NN(t_i,\mathbf{w})[2])^2$
 
 $\hspace{1.5cm}+\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[2] + \Omega * NN(t_i,\mathbf{w})[1] + 0.5 * (\gamma_a + \gamma_e) * NN(t_i,\mathbf{w})[2])^2]$
 
