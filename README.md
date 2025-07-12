@@ -83,17 +83,17 @@ $s_x(t) ≡ NN(t,\mathbf{w})[0] \hspace{3cm} s_y(t) ≡ NN(t,\mathbf{w})[1]  \hs
 
 To simulate the two-level quantum dot system, the PINN is trained with the following loss function
 
-$L(\mathbf{w}) = L_{boundary} + L_{physics}$
+$L(\mathbf{w}) = L_{boundary} + \lambda L_{physics}$
 
 where,
 
 $\mathcal{L}_{boundary} = \frac{1}{3}[(NN(0,\mathbf{w})[0] - 0)^2 + (NN(0,\mathbf{w})[1] - 0)^2 + (NN(0,\mathbf{w})[2] + 0.5)^2]$
 
-$L_{physics} = \frac{1}{3}[\frac{\lambda_1}{N} \sum_{i=1}^N(\frac{d}{dt} NN(t_i,\mathbf{w})[0] + 0.5*(\gamma_a - \gamma_e) + (\gamma_a + \gamma_e) *  NN(t_i,\mathbf{w})[0])^2$ 
+$L_{physics} = \frac{1}{3}[\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt} NN(t_i,\mathbf{w})[0] + 0.5*(\gamma_a - \gamma_e) + (\gamma_a + \gamma_e) *  NN(t_i,\mathbf{w})[0])^2$ 
 
-$\hspace{1.5cm}+\frac{\lambda_1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[1] + \frac{\gamma_a + \gamma_e}{2} * NN(t_i,\mathbf{w})[1] - \Omega * NN(t_i,\mathbf{w})[2])^2$
+$\hspace{1.5cm}+\frac{\1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[1] + \frac{\gamma_a + \gamma_e}{2} * NN(t_i,\mathbf{w})[1] - \Omega * NN(t_i,\mathbf{w})[2])^2$
 
-$\hspace{1.5cm}+\frac{\lambda_1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[2] + \Omega * NN(t_i,\mathbf{w})[1] + 0.5 * (\gamma_a + \gamma_e) * NN(t_i,\mathbf{w})[2])^2]$
+$\hspace{1.5cm}+\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[2] + \Omega * NN(t_i,\mathbf{w})[1] + 0.5 * (\gamma_a + \gamma_e) * NN(t_i,\mathbf{w})[2])^2]$
 
 <br>
 
@@ -133,4 +133,4 @@ $\hspace{1.5cm}+\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[1] + 0.5
 
 $\hspace{1.5cm}+\frac{1}{N} \sum_{i=1}^N(\frac{d}{dt}NN(t_i,\mathbf{w})[2] + \Omega * NN(t_i,\mathbf{w})[1] + 0.5 * (\gamma_a + \gamma_e) NN(t_i,\mathbf{w})[2])^2]$
 
-$L_{obs} = \frac{1}{3}[\frac{\lambda}{M} \sum_{j=1}^M(NN(t_j,\mathbf{w}, \mathcal{A})[0] - s_x^{obs})^2 + \frac{\lambda}{M} \sum_{j=1}^M(NN(t_j,\mathbf{w}, \mathcal{A})[1] - s_y^{obs})^2 + \frac{\lambda}{M} \sum_{j=1}^M(NN(t_j,\mathbf{w}, \mathcal{A})[2] - s_z^{obs})^2]$
+$L_{obs} = \frac{1}{3}[\frac{1}{M} \sum_{j=1}^M(NN(t_j,\mathbf{w}, \mathcal{A})[0] - s_x^{obs})^2 + \frac{1}{M} \sum_{j=1}^M(NN(t_j,\mathbf{w}, \mathcal{A})[1] - s_y^{obs})^2 + \frac{1}{M} \sum_{j=1}^M(NN(t_j,\mathbf{w}, \mathcal{A})[2] - s_z^{obs})^2]$
