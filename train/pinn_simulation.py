@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from data.data_utils import phonon_abs, phonon_emiss
+from data.data_utils import rmse, phonon_abs, phonon_emiss
 from figures.visualizations import plot_midtraining_sim, plot_loss_sim
 
 
@@ -66,8 +66,9 @@ def compute_physics_loss(s_pred, t_physics, om, ga, ge):
     return loss
 
 
-def train_pinn(pinn, t_physics, t_boundary, t_test, A, v_c, T, D, sx, sy, sz, 
-               lambda1=1e-3, epochs=15001, lr=1e-3, plot_interval=5000, plot_loss=False):
+def train_pinn(pinn, t_physics, t_boundary, t_test, alpha, v_c, T, D, sx, sy, sz, 
+               lambda1=1e-3, epochs=15001, lr=1e-3, weight_decay=1e-2,
+               plot_interval=5000, plot_loss=False):
     
     """
     Train the physics-informed neural network (PINN).
@@ -93,14 +94,14 @@ def train_pinn(pinn, t_physics, t_boundary, t_test, A, v_c, T, D, sx, sy, sz,
     
     """
 
-    optimiser = torch.optim.Adam(pinn.parameters(), lr=lr)
+    optimiser = torch.optim.Adam(pinn.parameters(), lr=lr, weight_decay=weight_decay)
 
     loss_list = []
 
     # Compute physical parameters
     om = torch.pi/D
-    ga = phonon_abs(v=om, A=A, v_c=v_c, T=T)
-    ge = phonon_emiss(v=om, A=A, v_c=v_c, T=T)
+    ga = phonon_abs(v=om, v_c=v_c, alpha=alpha, T=T)
+    ge = phonon_emiss(v=om, v_c=v_c, alpha=alpha, T=T)
 
     for i in range(epochs):
         optimiser.zero_grad()
@@ -126,6 +127,10 @@ def train_pinn(pinn, t_physics, t_boundary, t_test, A, v_c, T, D, sx, sy, sz,
         if i % plot_interval == 0:
             with torch.no_grad():
                 s = pinn(t_test)
+            rmse_x = rmse(sx, s[:,0])
+            rmse_y = rmse(sy, s[:,1])
+            rmse_z = rmse(sz, s[:,2])
+            print(f"Epoch : {i}  |  Loss = {loss.item()}  |  RMSE = [{rmse_x}, {rmse_y}, {rmse_z}]")
             plot_midtraining_sim(sx, sy, sz, t_test, s, i, loss)
 
 

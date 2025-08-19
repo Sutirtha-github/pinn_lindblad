@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+plt.rcParams['font.size'] = 12.5
+
 def plot_trajectory(D, t, sx, sy, sz):
 
     fig, axes = plt.subplots(1, 3, figsize=(12, 3))
@@ -60,23 +62,26 @@ def plot_midtraining_sim(sx, sy, sz, t_test, s, i, loss):
 
     fig, axes = plt.subplots(1, 3, figsize=(12, 3))
 
-    axes[0].plot(t_test[:, 0], sx, label="Numerical", color="black", linewidth=2)
-    axes[0].plot(t_test[:, 0], s[:, 0], label="PINN", color="tab:red", linewidth=2)
-    axes[0].set_xlabel("Time (ps)")
-    axes[0].set_ylabel(r"$s_x$")
+    axes[0].plot(t_test[:, 0], sx, label="Numerical solution", color="black", linewidth=2)
+    axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red", linewidth=2)
+    axes[0].set_xlabel("t (ps)")
+    axes[0].set_ylabel(r"$s_x (t)$")
+    axes[0].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[0].legend()
 
-    axes[1].plot(t_test[:, 0], sy, label="Numerical", color="black", linewidth=2)
-    axes[1].plot(t_test[:, 0], s[:, 1], label="PINN", color="tab:green", linewidth=2)
-    axes[1].set_xlabel("Time (ps)")
-    axes[1].set_ylabel(r"$s_y$")
-    axes[1].set_title(f"Epoch: {i},  loss = {round(loss.item(), 6)}")
+    axes[1].plot(t_test[:, 0], sy, label="Numerical solution", color="black", linewidth=2)
+    axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green", linewidth=2)
+    axes[1].set_xlabel("t (ps)")
+    axes[1].set_ylabel(r"$s_y (t)$")
+    axes[1].set_xticks([0, 1, 2, 3 ,4, 5])
+    #axes[1].set_title(f"Epoch: {i},  loss = {round(loss.item(), 6)}")
     axes[1].legend()
 
-    axes[2].plot(t_test[:, 0], sz, label="Numerical", color="black", linewidth=2)
-    axes[2].plot(t_test[:, 0], s[:, 2], label="PINN", color="tab:blue", linewidth=2)
-    axes[2].set_xlabel("Time (ps)")
-    axes[2].set_ylabel(r"$s_z$")
+    axes[2].plot(t_test[:, 0], sz, label="Numerical solution", color="black", linewidth=2)
+    axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue", linewidth=2)
+    axes[2].set_xlabel("t (ps)")
+    axes[2].set_ylabel(r"$s_z (t)$")
+    axes[2].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[2].legend()
 
     plt.tight_layout()
@@ -98,29 +103,32 @@ def plot_loss_sim(loss_list):
 def plot_midtraining_inv1(i, A0, A_list, t_test, s, t_obs, sx_obs, sy_obs, sz_obs):
 
     fig, axes = plt.subplots(1, 4, figsize=(15, 3))
-    fig.suptitle(f"Training epoch: {i}")
+    #fig.suptitle(f"Training epoch: {i}")
 
     axes[0].scatter(t_obs[:, 0], sx_obs, label="Noisy observations", alpha=0.6, color="tab:red")
-    axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red")
-    axes[0].set_xlabel("Time (ps)")
-    axes[0].set_ylabel(r"$s_x$")
+    axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red", linewidth=2)
+    axes[0].set_xlabel("t (ps)")
+    axes[0].set_ylabel(r"$s_x (t)$")
+    axes[0].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[0].legend()
 
     axes[1].scatter(t_obs[:, 0], sy_obs, label="Noisy observations", alpha=0.6, color="tab:green")
-    axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green")
-    axes[1].set_xlabel("Time (ps)")
-    axes[1].set_ylabel(r"$s_y$")
+    axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green", linewidth=2)
+    axes[1].set_xlabel("t (ps)")
+    axes[1].set_ylabel(r"$s_y (t)$")
+    axes[1].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[1].legend()
 
     axes[2].scatter(t_obs[:, 0], sz_obs, label="Noisy observations", alpha=0.6, color="tab:blue")
-    axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue")
-    axes[2].set_xlabel("Time (ps)")
-    axes[2].set_ylabel(r"$s_z$")
+    axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue", linewidth=2)
+    axes[2].set_xlabel("t (ps)")
+    axes[2].set_ylabel(r"$s_z (t)$")
+    axes[2].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[2].legend()
 
-    axes[3].plot(A_list, label="PINN estimate", color="darkorange")
-    axes[3].hlines(A0, 0, len(A_list), label="True A", color="black")
-    axes[3].set_ylabel(r"$A$ (ps/K)")
+    axes[3].plot(A_list, label="PINN estimate", color="darkorange", linewidth=2)
+    axes[3].hlines(A0, 0, len(A_list), label=r"True $\alpha$", color="black", linewidth=2)
+    axes[3].set_ylabel(r"$\alpha$")
     axes[3].set_xlabel("Training step")
     axes[3].legend()
 
@@ -131,31 +139,57 @@ def plot_midtraining_inv1(i, A0, A_list, t_test, s, t_obs, sx_obs, sy_obs, sz_ob
 def plot_midtraining_inv2(i, v_c0, v_c_list, t_test, s, t_obs, sx_obs, sy_obs, sz_obs):
 
     fig, axes = plt.subplots(1, 4, figsize=(15, 3))
-    fig.suptitle(f"Training epoch: {i}")
+    #fig.suptitle(f"Training epoch: {i}")
 
     axes[0].scatter(t_obs[:, 0], sx_obs, label="Noisy observations", alpha=0.6, color="tab:red")
     axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red", linewidth=2)
-    axes[0].set_xlabel("Time (ps)")
-    axes[0].set_ylabel(r"$s_x$")
+    axes[0].set_xlabel("t (ps)")
+    axes[0].set_ylabel(r"$s_x (t)$")
+    axes[0].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[0].legend()
 
     axes[1].scatter(t_obs[:, 0], sy_obs, label="Noisy observations", alpha=0.6, color="tab:green")
     axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green", linewidth=2)
-    axes[1].set_xlabel("Time (ps)")
-    axes[1].set_ylabel(r"$s_y$")
+    axes[1].set_xlabel("t (ps)")
+    axes[1].set_ylabel(r"$s_y (t)$")
+    axes[1].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[1].legend()
 
     axes[2].scatter(t_obs[:, 0], sz_obs, label="Noisy observations", alpha=0.6, color="tab:blue")
     axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue", linewidth=2)
-    axes[2].set_xlabel("Time (ps)")
-    axes[2].set_ylabel(r"$s_z$")
+    axes[2].set_xlabel("t (ps)")
+    axes[2].set_ylabel(r"$s_z (t)$")
+    axes[2].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[2].legend()
 
     axes[3].plot(v_c_list, label="PINN estimate", color="darkorange", linewidth=2)
-    axes[3].hlines(v_c0, 0, len(v_c_list), label="True value", color="black", linewidth=2)
-    axes[3].set_ylabel(r"$\omega_c (ps^{-1})$")
+    axes[3].hlines(v_c0, 0, len(v_c_list), label=r"True $\omega_c$", color="black", linewidth=2)
+    axes[3].set_ylabel(r"$\omega_c$  $(ps^{-1})$")
     axes[3].set_xlabel("Training step")
     axes[3].legend()
 
     plt.tight_layout()
     plt.show()
+
+
+
+
+def plot_derivatives(omega, alpha, dgamma_dalpha, omega_c, dgamma_domega_c):
+    plt.rcParams['font.size'] = 12.5
+    fig, axs = plt.subplots(1, 2, figsize=(10, 4), constrained_layout=True)
+
+    c1 = axs[0].contourf(omega, alpha, dgamma_dalpha.T, levels=100, cmap='plasma')
+    axs[0].set_title(r"$\partial \gamma_a / \partial \alpha$")
+    axs[0].set_xlabel(r"$\omega$")
+    axs[0].set_ylabel(r"$\alpha$")
+    fig.colorbar(c1, ax=axs[0])
+
+    c2 = axs[1].contourf(omega, omega_c, dgamma_domega_c.T, levels=100, cmap='plasma')
+    axs[1].set_title(r"$\partial \gamma_a / \partial \omega_c$")
+    axs[1].set_xlabel(r"$\omega$")
+    axs[1].set_ylabel(r"$\omega_c$")
+    fig.colorbar(c2, ax=axs[1])
+
+
+
+

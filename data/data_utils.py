@@ -1,5 +1,5 @@
 import torch
-from torch import pi, sin, cos, exp, sqrt
+from torch import pi, exp
 
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -10,6 +10,8 @@ kb = torch.tensor(1.3806e-23, device=device)        # J/K
 
 
 # Define required functions
+def rmse(y1, y2):
+    return torch.sqrt(torch.mean((y1 - y2)**2))
 
 # Spectral density J
 def spec_dens(v, A, v_c):
@@ -33,34 +35,8 @@ def phonon_occ(v, T):
     return 1.0 / (exp(hbar * v / (kb * T)) - 1 + eps)
 
 
-# Phonon absorption rate \gamma_a
-def phonon_abs(v, A, T, v_c):
-    '''
-    v: frequency (1/ps)
-    A: system-bath coupling strength (ps/K)
-    T: bath temperature (K)
-    v_c: cutoff frequency (1/ps)
-    theta: mixing angle (rad)
-    
-    '''
-    return 0.5 * pi * spec_dens(v=v,A=A,v_c=v_c) * phonon_occ(v=v,T=T)
-
-
-# Phonon emission rate \gamma_e
-def phonon_emiss(v, A, T, v_c):
-    '''
-    v: frequency (1/ps)
-    A: system-bath coupling strength (ps/K)
-    T: bath temperature (K)
-    v_c: cutoff frequency (1/ps)
-    theta: mixing angle (rad)
-    
-    '''
-    return 0.5 * pi * spec_dens(v=v,A=A,v_c=v_c) * (1 + phonon_occ(v=v,T=T))
-
-
-# re-define spectral density with learnable parameter v_c as an argument and of the form J(om) = 2 * alpha * om**3/om_c**2 * exp(-(om/om_c)**2)
-def spec_dens_1(v, alpha, v_c):
+# define spectral density 
+def spec_dens(v, alpha, v_c):
     '''
     v: frequency (1/ps)
     alpha: system-bath coupling strength (dimensionless)
@@ -69,8 +45,8 @@ def spec_dens_1(v, alpha, v_c):
     return 2 * alpha * (v**3 / v_c**2) * torch.exp(-(v/v_c)**2)
 
 
-# re-define phonon absorption rate with learnable parameter v_c as an argument and alpha instead of A
-def phonon_abs_1(v, v_c, alpha, T):
+# define phonon absorption rate 
+def phonon_abs(v, v_c, alpha, T):
     '''
     v: frequency (1/ps)
     A: system-bath coupling strength (ps/K)
@@ -79,11 +55,11 @@ def phonon_abs_1(v, v_c, alpha, T):
     theta: mixing angle (rad)
     
     '''
-    return 0.5 * pi * spec_dens_1(v=v, alpha=alpha, v_c=v_c) * phonon_occ(v=v, T=T)
+    return 0.5 * pi * spec_dens(v=v, alpha=alpha, v_c=v_c) * phonon_occ(v=v, T=T)
 
 
-# re-define phonon emission rate with learnable parameter v_c as an argument and alpha instead of A
-def phonon_emiss_1(v, v_c, alpha, T):
+# define phonon emission rate 
+def phonon_emiss(v, v_c, alpha, T):
     '''
     v: frequency (1/ps)
     A: system-bath coupling strength (ps/K)
@@ -92,4 +68,4 @@ def phonon_emiss_1(v, v_c, alpha, T):
     theta: mixing angle (rad)
     
     '''
-    return 0.5 * pi * spec_dens_1(v=v, alpha=alpha, v_c=v_c) * (1 + phonon_occ(v=v, T=T))
+    return 0.5 * pi * spec_dens(v=v, alpha=alpha, v_c=v_c) * (1 + phonon_occ(v=v, T=T))

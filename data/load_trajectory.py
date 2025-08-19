@@ -5,7 +5,7 @@ from data.data_utils import phonon_abs, phonon_emiss
 
 
 
-def bloch_eqs(t, S, A, v_c, T, D):
+def bloch_eqs(t, S, alpha, v_c, T, D):
     """
     Computes LHS of the Lindblad differential equations.
 
@@ -24,8 +24,8 @@ def bloch_eqs(t, S, A, v_c, T, D):
     sx, sy, sz = S
 
     om = np.pi/D
-    ga = phonon_abs(v=om, A=A, v_c=v_c, T=T)
-    ge = phonon_emiss(v=om, A=A, v_c=v_c, T=T)
+    ga = phonon_abs(v=om, v_c=v_c, alpha=alpha, T=T)
+    ge = phonon_emiss(v=om, v_c=v_c, alpha=alpha, T=T)
 
     dsx_dt = -0.5 * (ga - ge) - (ga + ge) * sx 
     dsy_dt = - 0.5 * (ga + ge) * sy  + om * sz
@@ -36,7 +36,7 @@ def bloch_eqs(t, S, A, v_c, T, D):
 
 
 
-def generate_bloch_trajectory(A, v_c, T, D, S0=[0.0, 0.0, -1.0], t_intervals=150, return_tensor=True, plot=False):
+def generate_bloch_trajectory(alpha, v_c, T, D, S0=[0.0, 0.0, -1.0], t_intervals=150, return_tensor=True, plot=False):
     """
     Numerically solve the Bloch equations for a given initial condition.
 
@@ -55,7 +55,7 @@ def generate_bloch_trajectory(A, v_c, T, D, S0=[0.0, 0.0, -1.0], t_intervals=150
     t_eval = np.linspace(t_span[0], t_span[1], t_intervals)
     S0 = np.array(S0, dtype=float)
 
-    sol = solve_ivp(bloch_eqs, t_span, S0, t_eval=t_eval, args=(A, v_c, T, D), rtol=1e-8, atol=1e-8)
+    sol = solve_ivp(bloch_eqs, t_span, S0, t_eval=t_eval, args=(alpha, v_c, T, D), rtol=1e-8, atol=1e-8)
 
     if not sol.success:
         raise RuntimeError("ODE solver failed!")

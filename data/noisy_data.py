@@ -1,5 +1,4 @@
 import torch
-import matplotlib.pyplot as plt
 
 def generate_data(sx, sy, sz, D, noise_std=0.004, M=50, seed=2021, plot=False):
     """
