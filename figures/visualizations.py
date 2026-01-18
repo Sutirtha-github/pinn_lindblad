@@ -66,14 +66,12 @@ def plot_midtraining_sim(sx, sy, sz, t_test, s, i, loss):
     axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red", linewidth=2)
     axes[0].set_xlabel("t (ps)")
     axes[0].set_ylabel(r"$s_x (t)$")
-    axes[0].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[0].legend()
 
     axes[1].plot(t_test[:, 0], sy, label="Numerical solution", color="black", linewidth=2)
     axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green", linewidth=2)
     axes[1].set_xlabel("t (ps)")
     axes[1].set_ylabel(r"$s_y (t)$")
-    axes[1].set_xticks([0, 1, 2, 3 ,4, 5])
     #axes[1].set_title(f"Epoch: {i},  loss = {round(loss.item(), 6)}")
     axes[1].legend()
 
@@ -81,7 +79,6 @@ def plot_midtraining_sim(sx, sy, sz, t_test, s, i, loss):
     axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue", linewidth=2)
     axes[2].set_xlabel("t (ps)")
     axes[2].set_ylabel(r"$s_z (t)$")
-    axes[2].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[2].legend()
 
     plt.tight_layout()
@@ -109,21 +106,18 @@ def plot_midtraining_inv1(i, A0, A_list, t_test, s, t_obs, sx_obs, sy_obs, sz_ob
     axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red", linewidth=2)
     axes[0].set_xlabel("t (ps)")
     axes[0].set_ylabel(r"$s_x (t)$")
-    axes[0].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[0].legend()
 
     axes[1].scatter(t_obs[:, 0], sy_obs, label="Noisy observations", alpha=0.6, color="tab:green")
     axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green", linewidth=2)
     axes[1].set_xlabel("t (ps)")
     axes[1].set_ylabel(r"$s_y (t)$")
-    axes[1].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[1].legend()
 
     axes[2].scatter(t_obs[:, 0], sz_obs, label="Noisy observations", alpha=0.6, color="tab:blue")
     axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue", linewidth=2)
     axes[2].set_xlabel("t (ps)")
     axes[2].set_ylabel(r"$s_z (t)$")
-    axes[2].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[2].legend()
 
     axes[3].plot(A_list, label="PINN estimate", color="darkorange", linewidth=2)
@@ -145,21 +139,18 @@ def plot_midtraining_inv2(i, v_c0, v_c_list, t_test, s, t_obs, sx_obs, sy_obs, s
     axes[0].plot(t_test[:, 0], s[:, 0], label="PINN solution", color="tab:red", linewidth=2)
     axes[0].set_xlabel("t (ps)")
     axes[0].set_ylabel(r"$s_x (t)$")
-    axes[0].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[0].legend()
 
     axes[1].scatter(t_obs[:, 0], sy_obs, label="Noisy observations", alpha=0.6, color="tab:green")
     axes[1].plot(t_test[:, 0], s[:, 1], label="PINN solution", color="tab:green", linewidth=2)
     axes[1].set_xlabel("t (ps)")
     axes[1].set_ylabel(r"$s_y (t)$")
-    axes[1].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[1].legend()
 
     axes[2].scatter(t_obs[:, 0], sz_obs, label="Noisy observations", alpha=0.6, color="tab:blue")
     axes[2].plot(t_test[:, 0], s[:, 2], label="PINN solution", color="tab:blue", linewidth=2)
     axes[2].set_xlabel("t (ps)")
     axes[2].set_ylabel(r"$s_z (t)$")
-    axes[2].set_xticks([0, 1, 2, 3 ,4, 5])
     axes[2].legend()
 
     axes[3].plot(v_c_list, label="PINN estimate", color="darkorange", linewidth=2)

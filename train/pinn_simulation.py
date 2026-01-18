@@ -66,7 +66,7 @@ def compute_physics_loss(s_pred, t_physics, om, ga, ge):
     return loss
 
 
-def train_pinn(pinn, t_physics, t_boundary, t_test, alpha, v_c, T, D, sx, sy, sz, 
+def train_pinn(pinn, t_physics, t_boundary, t_test, alpha, v_c, T, D, sx, sy, sz, S0=[0,0,-1],
                lambda1=1e-3, epochs=15001, lr=1e-3, weight_decay=1e-2,
                plot_interval=5000, plot_loss=False):
     
@@ -111,7 +111,7 @@ def train_pinn(pinn, t_physics, t_boundary, t_test, alpha, v_c, T, D, sx, sy, sz
         sx0_pred = s0_pred[:, 0].view(-1, 1)
         sy0_pred = s0_pred[:, 1].view(-1, 1)
         sz0_pred = s0_pred[:, 2].view(-1, 1)
-        loss_b = torch.mean(sx0_pred**2 + sy0_pred**2 + (sz0_pred + 1.0)**2)
+        loss_b = torch.mean((sx0_pred-S0[0])**2 + (sy0_pred-S0[1])**2 + (sz0_pred-S0[2])**2)
 
         # Physics loss
         s_pred = pinn(t_physics)
