@@ -1,6 +1,6 @@
 # PINN‑Lindblad: Physics‑Informed Neural Networks for Lindblad Master Equations
 
-A clean, modular, and fully reproducible implementation of **Physics‑Informed Neural Networks (PINNs)** for *learning* and *inverting* the **Bloch vectorised Lindblad master equation** governing population transfer in a *driven two‑level quantum system coupled to an acoustic‑phonon bath*.
+A fully reproducible implementation of **Physics‑Informed Neural Networks (PINNs)** for *learning* and *inverting* the **Bloch vectorised Lindblad master equation** governing population transfer in a *driven two‑level quantum system coupled to an acoustic‑phonon bath*.
 This repository accompanies the manuscript *“Learning and inverting driven open quantum systems via physics-informed neural networks”* and includes simulation, inverse‑problem experiments, figures, and reproducible training pipelines.
 
 
@@ -56,6 +56,7 @@ pinn_lindblad/
 ├── train/               # Training scripts for simulation & inverse tasks
 ├── notebook.ipynb       # End-to-end demonstration
 ├── sensitivity.py       # Sensitivity analysis utilities
+├── .gitignore
 ├── requirements.txt     # Python dependencies
 └── README.md            # Project description
 
